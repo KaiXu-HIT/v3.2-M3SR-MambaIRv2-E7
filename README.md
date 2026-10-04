@@ -1,7 +1,8 @@
-# v3.2-M3SR-MambaIRv2-E6
+# v3.2-M3SR-MambaIRv2-E7
 
 UDR-MambaSR：RGB routing ambiguity 与 Depth reliability 双条件控制的单次 late residual correction，用于 RGB + Depth → RGB ×4 超分辨率。Depth 不修改 RGB routing、sorting、Delta、A/B/C 或 selective scan。
 
+- [E7 逐图配对结果、10,000 次图像 bootstrap 与完整命令](docs/E7_GUIDE.md)
 - [E6 独立训练种子与匹配推理种子、训练和正式测试命令](docs/E6_GUIDE.md)
 - [E5 固定 E4 的八种 Depth 因果干预、测试命令与判据](docs/E5_GUIDE.md)
 - [E4 最佳 E2 uncertainty + 最佳 E3 local alpha 组合、训练、五组消融与测试命令](docs/E4_GUIDE.md)
@@ -13,7 +14,9 @@ UDR-MambaSR：RGB routing ambiguity 与 Depth reliability 双条件控制的单�
 - [用户提供的完整方案](docs/UDR_MambaSR_SPEC.md)
 - [本地验证记录与未验证项](docs/UDR_VERIFICATION.md)
 
-当前 E6 对 `10 11 12` 分别训练独立的 RGB→UDR-v1→E2/E3→UDR-v2 链路，再以同编号推理种子配对测试；报告逐数据集 PSNR/SSIM、ΔPSNR 的 mean±std 与正增益种子数。E6 训练、评估和前置条件见 [E6 指南](docs/E6_GUIDE.md)。
+当前 E7 复用 E6 的独立训练 seed 权重，保存每张图的 RGB/UDR-v2 配对 PSNR/SSIM，并按图像簇做 10,000 次 bootstrap，报告逐数据集 95% 区间、正增益图像比例、分位数及最差/最佳图像。完整命令与统计解释见 [E7 指南](docs/E7_GUIDE.md)。
+
+以下为 E6 的历史实验说明：E6 对 `10 11 12` 分别训练独立的 RGB→UDR-v1→E2/E3→UDR-v2 链路，再以同编号推理种子配对测试；报告逐数据集 PSNR/SSIM、ΔPSNR 的 mean±std 与正增益种子数。E6 训练、评估和前置条件见 [E6 指南](docs/E6_GUIDE.md)。
 
 以下为 E5 的历史实验说明：E5 固定一份训练完成的 E4 权重，仅在推理时分别输入正确、零、常数、空间打乱、其他图像、同均值方差噪声、强模糊、边缘 Depth；以匹配随机路由种子的五数据集 PSNR/SSIM 和四项机制量检验 Depth 的几何因果作用。E5 不新增训练，完整命令见 [E5 指南](docs/E5_GUIDE.md)。
 
